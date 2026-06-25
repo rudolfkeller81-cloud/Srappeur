@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head><title>Générer icônes</title></head>
+<body>
+<canvas id="c192" width="192" height="192"></canvas>
+<canvas id="c512" width="512" height="512"></canvas>
+<a id="dl192" download="icon-192.png">Télécharger 192</a><br>
+<a id="dl512" download="icon-512.png">Télécharger 512</a>
+<script>
+function drawIcon(canvas) {
+  const s = canvas.width;
+  const ctx = canvas.getContext('2d');
+  const r = s * 0.18;
+
+  // Fond dégradé
+  const grad = ctx.createLinearGradient(0, 0, s, s);
+  grad.addColorStop(0, '#4f6ef7');
+  grad.addColorStop(1, '#7c3aed');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, s, s, r);
+  ctx.fill();
+
+  // Loupe
+  ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+  ctx.lineWidth = s * 0.065;
+  ctx.lineCap = 'round';
+  const cx = s * 0.42, cy = s * 0.42, rad = s * 0.22;
+  ctx.beginPath();
+  ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx + rad * 0.7, cy + rad * 0.7);
+  ctx.lineTo(s * 0.76, s * 0.76);
+  ctx.stroke();
+}
+
+['c192','c512'].forEach(id => {
+  const c = document.getElementById(id);
+  drawIcon(c);
+  const dl = document.getElementById('dl' + id.replace('c',''));
+  dl.href = c.toDataURL('image/png');
+});
+</script>
+</body>
+</html>

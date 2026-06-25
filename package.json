@@ -1,0 +1,22 @@
+{
+  "name": "srappeur",
+  "version": "1.0.0",
+  "description": "Outil de collecte de prospects B2B français pour étude de marché téléphonique",
+  "main": "index.js",
+  "scripts": {
+    "search": "node index.js search",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "commander": "^12.1.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "googleapis": "^173.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}
