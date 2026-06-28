@@ -351,11 +351,73 @@
       /* Cache table, montre cards */
       .table-card { display: none; }
       .cards-list { display: flex; }
+      .an-grid { grid-template-columns: repeat(2, 1fr); }
+      .study-grid { grid-template-columns: 1fr; }
+      .bar-name { width: 92px; }
     }
 
     @media (min-width: 769px) {
       .cards-list { display: none !important; }
     }
+
+    /* ── Onglets vue (Recherche / Analyse) ── */
+    .view-tabs { display: inline-flex; background: var(--s1); border: 1px solid var(--border); border-radius: 11px; padding: 3px; gap: 2px; }
+    .view-tab { border: none; background: none; color: var(--t2); font-family: inherit; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: 8px; cursor: pointer; transition: background .15s, color .15s; }
+    .view-tab.active { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 2px 10px rgba(79,110,247,.3); }
+
+    /* ── Filtres ── */
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .filter-chip { border: 1px solid var(--border2); background: var(--s1); color: var(--t2); font-family: inherit; font-size: 12px; font-weight: 600; padding: 7px 13px; border-radius: 99px; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
+    .filter-chip:hover { border-color: var(--accent); color: var(--t1); }
+    .filter-chip.active { background: rgba(79,110,247,.12); border-color: var(--accent); color: #fff; }
+    .filter-chip .cnt { background: var(--s3); border-radius: 5px; padding: 0 6px; font-size: 11px; color: var(--t3); }
+    .filter-chip.active .cnt { background: rgba(79,110,247,.25); color: #c7d2fe; }
+
+    /* ── Badges suivi ── */
+    .badge-called { background: rgba(124,58,237,.14); color: #c4b5fd; border: 1px solid rgba(124,58,237,.3); }
+    .badge-called .dot { background: #c4b5fd; }
+    .badge-dup { background: rgba(245,158,11,.1); color: #fbbf24; border: 1px solid rgba(245,158,11,.25); }
+    .badge-dup .dot { background: #fbbf24; }
+
+    /* ── Bouton fiche ── */
+    .btn-study { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--s2); border: 1px solid var(--border2); color: var(--t2); font-family: inherit; font-size: 12px; font-weight: 600; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: all .15s; width: 100%; margin-top: 12px; }
+    .btn-study:hover { border-color: var(--accent); color: var(--t1); }
+    .btn-study.filled { background: rgba(124,58,237,.1); border-color: rgba(124,58,237,.3); color: #c4b5fd; }
+
+    /* ── Panneau fiche étude ── */
+    .study-tr { border-bottom: none; }
+    .study-tr td { padding: 0 16px; border-bottom: none; }
+    .study-panel { display: none; margin-top: 12px; padding-top: 14px; border-top: 1px dashed var(--border2); }
+    .study-panel.open { display: block; padding-bottom: 14px; }
+    .study-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .study-field { display: flex; flex-direction: column; gap: 6px; }
+    .study-field.full { grid-column: 1 / -1; }
+    .study-label { font-size: 11px; font-weight: 600; color: var(--t3); }
+    .seg { display: flex; gap: 4px; }
+    .seg button { flex: 1; border: 1px solid var(--border2); background: var(--bg); color: var(--t2); font-family: inherit; font-size: 12px; font-weight: 600; padding: 8px; border-radius: 8px; cursor: pointer; transition: all .12s; }
+    .seg button:hover { border-color: var(--border2); color: var(--t1); }
+    .seg button.on-yes { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.4); color: #34d399; }
+    .seg button.on-no { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.35); color: #f87171; }
+    .study-select, .study-textarea { width: 100%; background: var(--bg); border: 1px solid var(--border2); border-radius: 8px; color: var(--t1); font-family: inherit; font-size: 13px; padding: 9px 11px; outline: none; transition: border-color .15s; }
+    .study-select:focus, .study-textarea:focus { border-color: var(--accent); }
+    .study-textarea { resize: vertical; min-height: 62px; }
+
+    /* ── Analyse ── */
+    .analysis-section { display: none; }
+    .an-empty { text-align: center; padding: 56px 20px; color: var(--t3); font-size: 13px; line-height: 1.7; }
+    .an-empty-icon { font-size: 40px; margin-bottom: 14px; opacity: .3; }
+    .an-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+    .an-card { background: linear-gradient(145deg, var(--s1), var(--s2)); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+    .an-val { font-size: 26px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+    .an-label { font-size: 11px; color: var(--t3); font-weight: 600; line-height: 1.3; }
+    .an-sub { font-size: 11px; color: var(--t2); margin-top: 5px; }
+    .an-block { margin-bottom: 24px; }
+    .an-block-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--t1); }
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .bar-name { font-size: 12px; color: var(--t2); width: 120px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: var(--s3); border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width .4s; }
+    .bar-val { font-size: 12px; font-weight: 700; color: var(--t1); width: 64px; text-align: right; flex-shrink: 0; }
 
     /* ── Auth screen ── */
     #authScreen {
@@ -485,6 +547,14 @@
         <p>Google Places · Vérification INSEE · Export CSV</p>
       </div>
 
+      <div style="display:flex;justify-content:center;margin-bottom:22px;">
+        <div class="view-tabs">
+          <button class="view-tab active" id="tabSearch" onclick="switchView('search')">🔍 Recherche</button>
+          <button class="view-tab" id="tabAnalysis" onclick="switchView('analysis')">📊 Analyse</button>
+        </div>
+      </div>
+
+      <div id="searchView">
       <div class="card">
         <div class="fields">
           <div>
@@ -531,6 +601,8 @@
           <button class="btn-dl" onclick="exportCSV()">⬇ CSV</button>
         </div>
 
+        <div class="filters" id="filters"></div>
+
         <div class="stats" id="statsRow"></div>
 
         <!-- Table desktop -->
@@ -543,6 +615,7 @@
                 <th>Site Web</th>
                 <th>Note</th>
                 <th>Statut</th>
+                <th>Suivi</th>
               </tr>
             </thead>
             <tbody id="tbody"></tbody>
@@ -552,6 +625,10 @@
         <!-- Cards mobile -->
         <div class="cards-list" id="cardsList"></div>
       </div>
+      </div><!-- /searchView -->
+
+      <!-- Vue Analyse -->
+      <div class="analysis-section" id="analysisView"></div>
 
     </div>
   </div>
@@ -560,7 +637,7 @@
 <script>
   const STORAGE_KEY = 'srappeur_history_v2';
   const AUTH_KEY = 'srappeur_auth_token';
-  let currentData = [], currentFilename = '', currentId = null;
+  let currentCompanies = [], currentFilename = '', currentId = null, currentCat = '', currentLoc = '', currentFilter = 'all', openPanels = new Set();
 
   // ── Auth ──
   function getToken() { return localStorage.getItem(AUTH_KEY) || ''; }
@@ -651,7 +728,7 @@
   function loadHistory(id) {
     const h = getHistory().find(e => e.id === id);
     if (!h) return;
-    currentId = id; currentData = h.companies;
+    currentId = id; currentCompanies = h.companies;
     currentFilename = `prospects_${slug(h.category)}_${slug(h.location)}_${h.date.slice(0,10).replace(/-/g,'')}.csv`;
     document.getElementById('category').value = h.category;
     document.getElementById('location').value = h.location;
@@ -698,7 +775,7 @@
       if (!res.ok) throw new Error(data.error || 'Erreur serveur');
 
       currentId = Date.now().toString();
-      currentData = data.companies;
+      currentCompanies = data.companies;
       currentFilename = `prospects_${slug(cat)}_${slug(loc)}_${today()}.csv`;
 
       addToHistory({ id: currentId, category: cat, location: loc, max, total: data.total, date: new Date().toISOString(), companies: data.companies });
@@ -709,7 +786,12 @@
   }
 
   function renderResults(companies, cat, loc) {
-    // Stats
+    currentCompanies = companies;
+    currentCat = cat; currentLoc = loc;
+    currentFilter = 'all';
+    openPanels = new Set();
+
+    // Stats globales
     const total = companies.length;
     const avecTel = companies.filter(c => c.telephone).length;
     const avecSite = companies.filter(c => c.site_web).length;
@@ -723,20 +805,48 @@
       <div class="stat"><div class="stat-val">${avecSite}</div><div class="stat-label">Site web</div></div>
       <div class="stat"><div class="stat-val">${moy}</div><div class="stat-label">Note moy. ★</div></div>`;
 
+    document.getElementById('resultsSection').style.display = 'block';
+    renderList();
+  }
+
+  // ── Liste filtrée (table + cards) ──
+  function renderList() {
+    const companies = currentCompanies;
+    const map = calledPhones();
+
+    // Filtres + compteurs
+    const cAll = companies.length;
+    const cTel = companies.filter(c => c.telephone).length;
+    const cDone = companies.filter(c => getRec(cid(c)).appele === 'oui').length;
+    const cTodo = cAll - cDone;
+    const cNote = companies.filter(c => c.note_google && parseFloat(c.note_google) >= 4).length;
+    document.getElementById('filters').innerHTML =
+      chip('all','Tous',cAll) + chip('tel','Avec téléphone',cTel) +
+      chip('todo','À appeler',cTodo) + chip('done','Appelés',cDone) +
+      chip('note','Note ≥ 4',cNote);
+
+    const list = companies.filter(filterPredicate);
+
     // Table desktop
-    document.getElementById('tbody').innerHTML = companies.map(c => {
+    document.getElementById('tbody').innerHTML = list.map(c => {
+      const id = cid(c);
+      const r = getRec(id);
       const stars = c.note_google ? '★'.repeat(Math.round(parseFloat(c.note_google))) : '';
       return `<tr>
-        <td><div class="row-accent"></div><div class="company-name">${esc(c.nom)}</div><div class="company-loc">${esc(c.ville||'—')}${c.departement?`<span class="dep-chip">${esc(c.departement)}</span>`:''}</div></td>
+        <td><div class="row-accent"></div><div class="company-name">${esc(c.nom)}</div><div class="company-loc">${esc(c.ville||'—')}${c.departement?`<span class="dep-chip">${esc(c.departement)}</span>`:''}</div>${trackBadges(c,id,map)}</td>
         <td>${c.telephone?`<a class="tel-link" href="tel:${esc(c.telephone)}">📞 ${esc(c.telephone)}</a>`:`<span class="dash">—</span>`}</td>
         <td>${c.site_web?`<a class="site-link" href="${esc(c.site_web)}" target="_blank">🔗 ${shortUrl(c.site_web)}</a>`:`<span class="dash">—</span>`}</td>
         <td>${c.note_google?`<div class="note-cell"><span class="note-num">${esc(c.note_google)}</span><span class="note-stars">${stars}</span><span class="note-count">(${esc(c.nombre_avis)})</span></div>`:`<span class="dash">—</span>`}</td>
         <td>${mkBadge(c.statut_sirene||c.statut)}</td>
-      </tr>`;
+        <td><button class="btn-study ${isFilled(r)?'filled':''}" style="margin-top:0;" onclick="togglePanel('${id}')">${isFilled(r)?'✏️ Fiche':'+ Fiche'}</button></td>
+      </tr>
+      <tr class="study-tr"><td colspan="6"><div class="study-panel ${openPanels.has(id)?'open':''}">${studyForm(id)}</div></td></tr>`;
     }).join('');
 
     // Cards mobile
-    document.getElementById('cardsList').innerHTML = companies.map(c => {
+    document.getElementById('cardsList').innerHTML = list.map(c => {
+      const id = cid(c);
+      const r = getRec(id);
       const stars = c.note_google ? '★'.repeat(Math.round(parseFloat(c.note_google))) : '';
       return `
       <div class="prospect-card">
@@ -744,6 +854,7 @@
           <div>
             <div class="card-name">${esc(c.nom)}</div>
             <div class="card-loc">${esc(c.ville||'—')}${c.departement?`<span class="dep-chip">${esc(c.departement)}</span>`:''}</div>
+            ${trackBadges(c,id,map)}
           </div>
           ${mkBadge(c.statut_sirene||c.statut)}
         </div>
@@ -762,10 +873,206 @@
               : `<span style="color:var(--t3)">Pas de note</span>`}
           </div>
         </div>
+        <button class="btn-study ${isFilled(r)?'filled':''}" onclick="togglePanel('${id}')">${isFilled(r)?'✏️ Modifier la fiche':'+ Remplir la fiche'}</button>
+        <div class="study-panel ${openPanels.has(id)?'open':''}">${studyForm(id)}</div>
       </div>`;
     }).join('');
+  }
 
-    document.getElementById('resultsSection').style.display = 'block';
+  function renderListPreserve() {
+    const m = document.querySelector('.main');
+    const top = m ? m.scrollTop : 0;
+    renderList();
+    if (m) m.scrollTop = top;
+  }
+
+  // ── Filtres ──
+  function chip(key, label, cnt) {
+    return `<button class="filter-chip ${currentFilter===key?'active':''}" onclick="setFilter('${key}')">${label}<span class="cnt">${cnt}</span></button>`;
+  }
+  function setFilter(k) { currentFilter = k; renderListPreserve(); }
+  function filterPredicate(c) {
+    const r = getRec(cid(c));
+    switch (currentFilter) {
+      case 'tel':  return !!c.telephone;
+      case 'todo': return r.appele !== 'oui';
+      case 'done': return r.appele === 'oui';
+      case 'note': return c.note_google && parseFloat(c.note_google) >= 4;
+      default:     return true;
+    }
+  }
+
+  // ── Étude / suivi des appels (stocké localement) ──
+  const STUDY_KEY = 'srappeur_study_v1';
+  const STUDY_FIELDS = ['appele','a_repondu','recoit_beaucoup_appels_commerciaux','accepte_ecouter_commerciaux','a_achete_apres_appel_froid','canal_prefere','commentaires'];
+
+  function getStudy() { try { return JSON.parse(localStorage.getItem(STUDY_KEY) || '{}'); } catch { return {}; } }
+  function saveStudyAll(s) { localStorage.setItem(STUDY_KEY, JSON.stringify(s)); }
+  function getRec(id) { return getStudy()[id] || {}; }
+  function isFilled(r) { return STUDY_FIELDS.some(f => r[f]); }
+
+  // Identifiant unique et stable par entreprise
+  function cid(c) {
+    if (c.place_id) return c.place_id;
+    if (c.telephone) return 'tel_' + c.telephone.replace(/\D/g,'');
+    return 'nv_' + slug(c.nom||'') + '_' + slug(c.ville||'');
+  }
+
+  function studySet(id, field, val) {
+    const c = currentCompanies.find(x => cid(x) === id) || {};
+    const s = getStudy();
+    const r = s[id] || {};
+    r[field] = val;
+    r.updatedAt = new Date().toISOString();
+    r.nom = c.nom || r.nom || '';
+    r.categorie = c.categorie || r.categorie || '';
+    r.ville = c.ville || r.ville || '';
+    r.telephone = c.telephone || r.telephone || '';
+    s[id] = r;
+    saveStudyAll(s);
+  }
+
+  function setSeg(id, field, val) {
+    const cur = getRec(id)[field] || '';
+    studySet(id, field, cur === val ? '' : val);
+    renderListPreserve();
+  }
+  function setSel(id, field, el) { studySet(id, field, el.value); renderListPreserve(); }
+  function setTxt(id, field, el) { studySet(id, field, el.value); }
+
+  function togglePanel(id) {
+    if (openPanels.has(id)) openPanels.delete(id); else openPanels.add(id);
+    renderListPreserve();
+  }
+
+  function seg(id, field, label, r) {
+    const v = r[field] || '';
+    return `<div class="study-field">
+      <span class="study-label">${label}</span>
+      <div class="seg">
+        <button class="${v==='oui'?'on-yes':''}" onclick="setSeg('${id}','${field}','oui')">Oui</button>
+        <button class="${v==='non'?'on-no':''}" onclick="setSeg('${id}','${field}','non')">Non</button>
+      </div>
+    </div>`;
+  }
+
+  function studyForm(id) {
+    const r = getRec(id);
+    const canal = r.canal_prefere || '';
+    const opts = ['','Téléphone','Email','SMS','LinkedIn','Visite','Autre'];
+    return `<div class="study-grid">
+      ${seg(id,'appele','Appelé ?',r)}
+      ${seg(id,'a_repondu','A répondu ?',r)}
+      ${seg(id,'recoit_beaucoup_appels_commerciaux','Reçoit bcp d’appels ?',r)}
+      ${seg(id,'accepte_ecouter_commerciaux','Accepte d’écouter ?',r)}
+      ${seg(id,'a_achete_apres_appel_froid','A acheté après appel froid ?',r)}
+      <div class="study-field">
+        <span class="study-label">Canal préféré</span>
+        <select class="study-select" onchange="setSel('${id}','canal_prefere',this)">
+          ${opts.map(o => `<option value="${o}" ${canal===o?'selected':''}>${o||'—'}</option>`).join('')}
+        </select>
+      </div>
+      <div class="study-field full">
+        <span class="study-label">Commentaires</span>
+        <textarea class="study-textarea" oninput="setTxt('${id}','commentaires',this)" onchange="renderListPreserve()" placeholder="Notes sur l’appel…">${esc(r.commentaires||'')}</textarea>
+      </div>
+    </div>`;
+  }
+
+  // Numéros déjà appelés (pour repérer les doublons entre recherches)
+  function calledPhones() {
+    const map = {};
+    const s = getStudy();
+    for (const id in s) {
+      if (s[id].appele === 'oui' && s[id].telephone) {
+        const k = s[id].telephone.replace(/\D/g,'');
+        (map[k] = map[k] || []).push(id);
+      }
+    }
+    return map;
+  }
+
+  function trackBadges(c, id, map) {
+    let h = '';
+    if (getRec(id).appele === 'oui') h += `<span class="badge badge-called" style="margin-top:6px;"><span class="dot"></span>Appelé</span>`;
+    const pk = c.telephone ? c.telephone.replace(/\D/g,'') : '';
+    if (pk && map[pk] && map[pk].some(x => x !== id)) h += `<span class="badge badge-dup" style="margin-top:6px;margin-left:6px;"><span class="dot"></span>Doublon</span>`;
+    return h;
+  }
+
+  // ── Analyse ──
+  function switchView(v) {
+    const search = v === 'search';
+    document.getElementById('searchView').style.display = search ? 'block' : 'none';
+    document.getElementById('analysisView').style.display = search ? 'none' : 'block';
+    document.getElementById('tabSearch').classList.toggle('active', search);
+    document.getElementById('tabAnalysis').classList.toggle('active', !search);
+    if (!search) renderAnalysis();
+  }
+
+  function renderAnalysis() {
+    const recs = Object.values(getStudy());
+    const called = recs.filter(r => r.appele === 'oui');
+    const el = document.getElementById('analysisView');
+
+    if (!called.length) {
+      el.innerHTML = `<div class="an-empty"><div class="an-empty-icon">📊</div>Aucune donnée pour l’instant.<br>Marquez des entreprises comme « Appelé » dans leur fiche<br>pour voir apparaître l’analyse de votre étude.</div>`;
+      return;
+    }
+
+    const n = called.length;
+    const repondu = called.filter(r => r.a_repondu === 'oui').length;
+    const accepte = called.filter(r => r.accepte_ecouter_commerciaux === 'oui').length;
+    const achete  = called.filter(r => r.a_achete_apres_appel_froid === 'oui').length;
+    const pct = (a,b) => b ? Math.round(a/b*100) + '%' : '—';
+
+    const kpis = `
+      <div class="an-grid">
+        <div class="an-card"><div class="an-val">${n}</div><div class="an-label">Entreprises appelées</div></div>
+        <div class="an-card"><div class="an-val" style="color:var(--green)">${pct(repondu,n)}</div><div class="an-label">Taux de réponse</div><div class="an-sub">${repondu}/${n} ont répondu</div></div>
+        <div class="an-card"><div class="an-val" style="color:var(--accent)">${pct(accepte,n)}</div><div class="an-label">Acceptent d’écouter</div><div class="an-sub">${accepte}/${n}</div></div>
+        <div class="an-card"><div class="an-val" style="color:#fbbf24">${pct(achete,n)}</div><div class="an-label">Achat après appel froid</div><div class="an-sub">${achete}/${n}</div></div>
+      </div>`;
+
+    // Canal préféré
+    const canaux = {};
+    called.forEach(r => { if (r.canal_prefere) canaux[r.canal_prefere] = (canaux[r.canal_prefere]||0) + 1; });
+    const canalEntries = Object.entries(canaux).sort((a,b) => b[1]-a[1]);
+    const maxCanal = canalEntries.length ? canalEntries[0][1] : 1;
+    const canalBlock = canalEntries.length ? `
+      <div class="an-block">
+        <div class="an-block-title">📞 Canal préféré des entreprises</div>
+        ${canalEntries.map(([name,cnt]) => `
+          <div class="bar-row">
+            <span class="bar-name">${esc(name)}</span>
+            <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/maxCanal*100)}%"></div></div>
+            <span class="bar-val">${cnt}</span>
+          </div>`).join('')}
+      </div>` : '';
+
+    // Ouverture par catégorie
+    const cats = {};
+    called.forEach(r => {
+      const k = r.categorie || '—';
+      cats[k] = cats[k] || { n:0, acc:0 };
+      cats[k].n++;
+      if (r.accepte_ecouter_commerciaux === 'oui') cats[k].acc++;
+    });
+    const catEntries = Object.entries(cats)
+      .map(([name,v]) => [name, v.n, Math.round(v.acc/v.n*100)])
+      .sort((a,b) => b[2]-a[2]);
+    const catBlock = `
+      <div class="an-block">
+        <div class="an-block-title">🎯 Ouverture par catégorie (% qui acceptent d’écouter)</div>
+        ${catEntries.map(([name,cnt,p]) => `
+          <div class="bar-row">
+            <span class="bar-name">${esc(name)}</span>
+            <div class="bar-track"><div class="bar-fill" style="width:${p}%"></div></div>
+            <span class="bar-val">${p}% · ${cnt}</span>
+          </div>`).join('')}
+      </div>`;
+
+    el.innerHTML = kpis + canalBlock + catBlock;
   }
 
   function mkBadge(s) {
@@ -776,12 +1083,20 @@
     return `<span class="badge badge-unk"><span class="dot"></span>${esc(s)}</span>`;
   }
 
+  function pickStudy(id) {
+    const r = getRec(id), o = {};
+    STUDY_FIELDS.forEach(f => o[f] = r[f] || '');
+    return o;
+  }
+
   async function exportCSV() {
-    if (!currentData.length) return;
+    if (!currentCompanies.length) return;
+    // Fusionne les réponses de l'étude dans chaque entreprise avant l'export
+    const enriched = currentCompanies.map(c => ({ ...c, ...pickStudy(cid(c)) }));
     const res = await fetch('/api/export-csv', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-auth-token': getToken() },
-      body: JSON.stringify({ companies: currentData, filename: currentFilename }),
+      body: JSON.stringify({ companies: enriched, filename: currentFilename }),
     });
     if (res.status === 401) { clearToken(); showAuthScreen(); return; }
     const blob = await res.blob();
@@ -789,7 +1104,10 @@
     a.click(); URL.revokeObjectURL(a.href);
   }
 
-  document.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+  document.addEventListener('keydown', e => {
+    const t = e.target;
+    if (e.key === 'Enter' && t && (t.id === 'category' || t.id === 'location' || t.id === 'max')) doSearch();
+  });
 
   function setLoading(on) { document.getElementById('searchBtn').disabled = on; document.getElementById('statusBar').style.display = on ? 'flex' : 'none'; }
   function setStatus(m) { document.getElementById('statusMsg').textContent = m; }
