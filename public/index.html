@@ -647,6 +647,55 @@
   function showApp() { document.getElementById('authScreen').style.display = 'none'; }
   function showAuthScreen() { document.getElementById('authScreen').style.display = 'flex'; }
 
+  // ── Synchronisation serveur (base privée liée au code) ──
+  let syncTimer = null;
+  function scheduleSync() { clearTimeout(syncTimer); syncTimer = setTimeout(pushData, 1500); }
+
+  async function pushData() {
+    if (!getToken()) return;
+    try {
+      await fetch('/api/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-auth-token': getToken() },
+        body: JSON.stringify({ history: getHistory(), study: getStudy() }),
+      });
+    } catch {}
+  }
+
+  async function pullData() {
+    if (!getToken()) return;
+    try {
+      const res = await fetch('/api/data', { headers: { 'x-auth-token': getToken() } });
+      if (res.status === 401) { clearToken(); showAuthScreen(); return; }
+      if (!res.ok) return;
+      const remote = await res.json();
+      mergeRemote(remote);
+      renderHistory();
+      if (currentCompanies.length) renderList();
+      pushData(); // renvoie la fusion au serveur pour aligner les deux côtés
+    } catch {}
+  }
+
+  function mergeRemote(remote) {
+    // Historique : fusion par id, on garde l'entrée la plus récente
+    const byId = {};
+    (remote.history || []).forEach(e => { byId[e.id] = e; });
+    getHistory().forEach(e => {
+      const ex = byId[e.id];
+      if (!ex || new Date(e.date) > new Date(ex.date)) byId[e.id] = e;
+    });
+    const mergedH = Object.values(byId).sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 50);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedH));
+
+    // Étude : fusion par entreprise, on garde la modification la plus récente
+    const out = { ...getStudy() };
+    const rs = remote.study || {};
+    for (const id in rs) {
+      if (!out[id] || new Date(rs[id].updatedAt || 0) > new Date(out[id].updatedAt || 0)) out[id] = rs[id];
+    }
+    localStorage.setItem(STUDY_KEY, JSON.stringify(out));
+  }
+
   async function doLogin() {
     const code = document.getElementById('authCode').value.trim();
     const errEl = document.getElementById('authError');
@@ -664,6 +713,7 @@
       saveToken(code);
       showApp();
       renderHistory();
+      pullData();
     } catch {
       errEl.textContent = 'Erreur réseau. Réessayez.';
     } finally {
@@ -675,6 +725,7 @@
     const token = getToken();
     if (token) {
       showApp();
+      pullData();
     } else {
       showAuthScreen();
     }
@@ -683,7 +734,7 @@
 
   // ── History ──
   function getHistory() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; } }
-  function saveHistory(h) { localStorage.setItem(STORAGE_KEY, JSON.stringify(h)); }
+  function saveHistory(h) { localStorage.setItem(STORAGE_KEY, JSON.stringify(h)); scheduleSync(); }
 
   function addToHistory(entry) {
     const h = getHistory().filter(e => !(e.category === entry.category && e.location === entry.location));
@@ -907,7 +958,7 @@
   const STUDY_FIELDS = ['appele','a_repondu','recoit_beaucoup_appels_commerciaux','accepte_ecouter_commerciaux','a_achete_apres_appel_froid','canal_prefere','commentaires'];
 
   function getStudy() { try { return JSON.parse(localStorage.getItem(STUDY_KEY) || '{}'); } catch { return {}; } }
-  function saveStudyAll(s) { localStorage.setItem(STUDY_KEY, JSON.stringify(s)); }
+  function saveStudyAll(s) { localStorage.setItem(STUDY_KEY, JSON.stringify(s)); scheduleSync(); }
   function getRec(id) { return getStudy()[id] || {}; }
   function isFilled(r) { return STUDY_FIELDS.some(f => r[f]); }
 
