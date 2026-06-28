@@ -8,81 +8,44 @@ function makePNG(size) {
   const w = size, h = size;
   const raw = Buffer.alloc(w * h * 4);
 
-  const rx = Math.round(size * 0.215); // border-radius proportionnel
+  const cx = w / 2, cy = h / 2;
+  const padding = size * 0.15; // marge pour que Chrome ne coupe pas les bords
+  const maxR = (size / 2) - padding;
+  const radii = [maxR * (1 / 3), maxR * (2 / 3), maxR];
+  const sw = size * 0.07;
 
-  // Loupe : cercle centre + handle
-  const cx = Math.round(w * 0.449), cy = Math.round(h * 0.449), r = Math.round(w * 0.234);
-  const sw = Math.round(w * 0.070); // stroke width
-  const lx1 = Math.round(w * 0.625), ly1 = Math.round(h * 0.625);
-  const lx2 = Math.round(w * 0.801), ly2 = Math.round(h * 0.801);
-
-  function inRoundedRect(x, y) {
-    if (x < rx) {
-      if (y < rx) return Math.hypot(x - rx, y - rx) <= rx;
-      if (y > h - rx) return Math.hypot(x - rx, y - (h - rx)) <= rx;
-    }
-    if (x > w - rx) {
-      if (y < rx) return Math.hypot(x - (w - rx), y - rx) <= rx;
-      if (y > h - rx) return Math.hypot(x - (w - rx), y - (h - rx)) <= rx;
-    }
-    return true;
-  }
-
-  function distToCircleEdge(x, y) {
+  function distToRing(x, y, r) {
     return Math.abs(Math.hypot(x - cx, y - cy) - r);
-  }
-
-  function distToSegment(px, py, x1, y1, x2, y2) {
-    const dx = x2 - x1, dy = y2 - y1;
-    const len2 = dx * dx + dy * dy;
-    let t = ((px - x1) * dx + (py - y1) * dy) / len2;
-    t = Math.max(0, Math.min(1, t));
-    return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
   }
 
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const i = (y * w + x) * 4;
+      const dist = Math.hypot(x - cx, y - cy);
+      const t = Math.min(1, dist / maxR);
 
-      if (!inRoundedRect(x, y)) {
-        raw[i+3] = 0;
-        continue;
-      }
+      // Couleur du gradient radial
+      const cr = Math.round(79  + (124 - 79)  * t);
+      const cg = Math.round(110 + (58  - 110) * t);
+      const cb = Math.round(247 + (237 - 247) * t);
 
-      // Gradient fond
-      const t = (x + y) / (w + h);
-      const bg_r = Math.round(79  + (124 - 79)  * t);
-      const bg_g = Math.round(110 + (58  - 110) * t);
-      const bg_b = Math.round(247 + (237 - 247) * t);
+      // Distance minimale à l'un des 3 anneaux
+      const minDist = Math.min(...radii.map(r => distToRing(x, y, r)));
+      const half = sw / 2;
 
-      // Loupe : anneau
-      const dc = distToCircleEdge(x, y);
-      // Handle
-      const dl = distToSegment(x, y, lx1, ly1, lx2, ly2);
-
-      const halfSW = sw / 2;
-      const inStroke = dc <= halfSW || dl <= halfSW;
-
-      // Anti-aliasing simple
-      const aa = Math.max(0, 1 - Math.min(dc, dl) / (halfSW + 1));
-
-      if (inStroke) {
-        // Blanc
-        raw[i]   = 255;
-        raw[i+1] = 255;
-        raw[i+2] = 255;
+      if (minDist <= half) {
+        raw[i]   = cr;
+        raw[i+1] = cg;
+        raw[i+2] = cb;
         raw[i+3] = 255;
-      } else if (aa > 0 && Math.min(dc, dl) < halfSW + 2) {
-        const a = Math.round(aa * 255);
-        raw[i]   = Math.round(bg_r + (255 - bg_r) * aa);
-        raw[i+1] = Math.round(bg_g + (255 - bg_g) * aa);
-        raw[i+2] = Math.round(bg_b + (255 - bg_b) * aa);
-        raw[i+3] = 255;
+      } else if (minDist < half + 1.5) {
+        const aa = 1 - (minDist - half) / 1.5;
+        raw[i]   = cr;
+        raw[i+1] = cg;
+        raw[i+2] = cb;
+        raw[i+3] = Math.round(aa * 255);
       } else {
-        raw[i]   = bg_r;
-        raw[i+1] = bg_g;
-        raw[i+2] = bg_b;
-        raw[i+3] = 255;
+        raw[i+3] = 0; // transparent
       }
     }
   }
@@ -114,8 +77,7 @@ function makePNG(size) {
   function chunk(type, data) {
     const len = Buffer.alloc(4); len.writeUInt32BE(data.length);
     const typeB = Buffer.from(type, 'ascii');
-    const crcBuf = Buffer.concat([typeB, data]);
-    const crcB = Buffer.alloc(4); crcB.writeUInt32BE(crc32(crcBuf) >>> 0);
+    const crcB = Buffer.alloc(4); crcB.writeUInt32BE(crc32(Buffer.concat([typeB, data])) >>> 0);
     return Buffer.concat([len, typeB, data, crcB]);
   }
 
@@ -135,10 +97,7 @@ const outDir = path.join(__dirname, 'public', 'icons');
 fs.mkdirSync(outDir, { recursive: true });
 
 [192, 512].forEach(size => {
-  const png = makePNG(size);
-  const out = path.join(outDir, `icon-${size}.png`);
-  fs.writeFileSync(out, png);
+  fs.writeFileSync(path.join(outDir, `icon-${size}.png`), makePNG(size));
   console.log(`✓ icon-${size}.png`);
 });
-
 console.log('Done!');
