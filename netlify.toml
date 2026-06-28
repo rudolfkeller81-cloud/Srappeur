@@ -7,6 +7,11 @@
   external_node_modules = ["axios"]
 
 [[redirects]]
+  from = "/api/auth"
+  to = "/.netlify/functions/auth"
+  status = 200
+
+[[redirects]]
   from = "/api/search"
   to = "/.netlify/functions/search"
   status = 200

@@ -3,9 +3,20 @@
 const { scrapeGooglePlaces } = require('../../src/scrapers/googlePlaces');
 const { verifySirene } = require('../../src/utils/sireneChecker');
 
+function checkAuth(event) {
+  const authCode = process.env.AUTH_CODE;
+  if (!authCode) return true; // si pas configuré, on laisse passer (rétrocompat)
+  const token = event.headers['x-auth-token'] || '';
+  return token === authCode;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
+  }
+
+  if (!checkAuth(event)) {
+    return { statusCode: 401, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Non autorisé. Veuillez vous connecter.' }) };
   }
 
   let body;
